@@ -44,10 +44,10 @@
       "name": "Tambah Task",
       "icon": "menu-icon tf-icons bx bx-detail",
       "slug": "form-layouts",
-      "url": "form/layouts-vertical"
+      "url": "tambahTask"
     },
     {
-      "url": "tables/basic",
+      "url": "taskList",
       "icon": "menu-icon tf-icons bx bx-table",
       "name": "Data Task",
       "slug": "tables-basic"

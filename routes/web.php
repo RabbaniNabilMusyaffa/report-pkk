@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +32,12 @@ Route::get('/auth/register-basic', $controller_path . '\authentications\Register
 Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-reset-password-basic');
 
 // form layouts
-Route::get('/form/layouts-vertical', $controller_path . '\form_layouts\VerticalForm@index')->name('form-layouts-vertical');
+Route::get('/tambahTask', [TaskController::class, 'create'])->name('tambah-task');
+Route::post('/storeTask', [TaskController::class, 'store'])->name('store-task');
+Route::get('/detailTask/{id}', [TaskController::class, 'detail'])->name('task-detail');
+Route::get('/editTask/{id}', [TaskController::class, 'edit'])->name('task-edit');
+Route::post('/updateTask/{id}', [TaskController::class, 'update'])->name('task-update');
+Route::delete('/deleteTask/{id}', [TaskController::class, 'delete'])->name('task-delete');
 
 // tables
-Route::get('/tables/basic', $controller_path . '\tables\Basic@index')->name('tables-basic');
+Route::get('/taskList', [TaskController::class, 'index'])->name('task-list');
