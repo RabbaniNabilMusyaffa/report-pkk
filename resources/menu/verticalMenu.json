@@ -1,20 +1,23 @@
 {
   "menu": [
     {
+      "menuHeader": "Account Management"
+    },
+    {
       "url": "/",
       "name": "Dashboard",
-      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "icon": "menu-icon tf-icons bx bxs-home-circle",
       "slug": "dashboard-analytics"
     },
     {
       "name": "Account Settings",
-      "icon": "menu-icon tf-icons bx bx bx-dock-top",
+      "icon": "menu-icon tf-icons bx bx bxs-user-account",
       "slug": "pages-account-settings",
       "url": "/pages/account-settings-account"
     },
     {
       "name": "Authentications",
-      "icon": "menu-icon tf-icons bx bx-lock-open-alt",
+      "icon": "menu-icon tf-icons bx bxs-contact",
       "slug": "auth",
       "submenu": [
         {
@@ -42,7 +45,7 @@
     },
     {
       "name": "Tambah Task",
-      "icon": "menu-icon tf-icons bx bx-detail",
+      "icon": "menu-icon tf-icons bx bxs-detail",
       "slug": "form-layouts",
       "url": "tambahTask"
     },

@@ -26,12 +26,12 @@ Route::get('/pages/account-settings-connections', $controller_path . '\pages\Acc
 Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
 Route::get('/pages/misc-under-maintenance', $controller_path . '\pages\MiscUnderMaintenance@index')->name('pages-misc-under-maintenance');
 
-// authentication
+// Authentication
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-reset-password-basic');
 
-// form layouts
+// Task Management part
 Route::get('/tambahTask', [TaskController::class, 'create'])->name('tambah-task');
 Route::post('/storeTask', [TaskController::class, 'store'])->name('store-task');
 Route::get('/detailTask/{id}', [TaskController::class, 'detail'])->name('task-detail');
@@ -39,5 +39,5 @@ Route::get('/editTask/{id}', [TaskController::class, 'edit'])->name('task-edit')
 Route::post('/updateTask/{id}', [TaskController::class, 'update'])->name('task-update');
 Route::delete('/deleteTask/{id}', [TaskController::class, 'delete'])->name('task-delete');
 
-// tables
+// Tabel task
 Route::get('/taskList', [TaskController::class, 'index'])->name('task-list');

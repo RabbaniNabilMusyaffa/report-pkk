@@ -3,9 +3,8 @@
 @section('title', 'Tables - Basic Tables')
 
 @section('content')
-<h4 class="fw-bold py-3 mb-4">
-  List Task / Project
-</h4>
+<h4 class="fw-bold py-3 mb-4" style="color: #696cff;">List - <span class="text-muted fw-bold"> Task / Project</span></h4>
+
 
 <!-- Basic Bootstrap Table -->
 @if (Session::has('message'))
@@ -27,11 +26,61 @@
       </thead>
       <tbody class="table-border-bottom-0">
         @foreach ($tasks as $task)
+
+        {{-- @php
+        $deadline = new DateTime($task->deadline);
+        $currentDate = new DateTime();
+        $daysRemaining = $currentDate->diff($deadline)->days;
+        
+        if ($daysRemaining <= 5 && $daysRemaining >= 0) {
+          $statusClass = 'bg-label-warning';
+          $status = 'Task dekat dengan deadline';
+        } elseif ($daysRemaining < 0) {
+          $statusClass = 'bg-label-danger';
+          $status = 'Task telah tenggat';
+        } else {
+          $statusClass = 'bg-label-primary';
+          $status = 'Task sedang dikerjakan';
+        }
+        @endphp --}}
+
+        @php
+        // Calculate the difference in days between the current date and the task's deadline
+        $currentDate = now();
+        $deadline = \Carbon\Carbon::parse($task->deadline);
+        $daysUntilDeadline = $currentDate->diffInDays($deadline);
+        
+        // Define a variable to hold the CSS class based on the days until the deadline
+        $statusClass = '';
+        
+        // Determine the CSS class based on the days until the deadline
+        if ($daysUntilDeadline <= 0) {
+          // Deadline has passed, use 'bg-label-danger'
+          $statusClass = 'bg-label-danger';
+        } elseif ($daysUntilDeadline <= 5) {
+          // Deadline is within 5 days, use 'bg-label-warning'
+          $statusClass = 'bg-label-warning';
+        } else {
+          // Default to 'bg-label-primary' for other cases
+          $statusClass = 'bg-label-primary';
+        }
+        @endphp
+
         <tr>
           <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{$task -> title}}</strong></td>
           <td class="text-center">{{$task -> created_at->format('Y-m-d')}}</td>
           <td class="text-center">{{$task -> deadline}}</td>
-          <td class="text-center"><span class="badge bg-label-primary me-1">Active</span></td>
+          <td class="text-center taskStatus"><span class="badge {{$statusClass}} me-1">
+            @if ($daysUntilDeadline <= 0)
+            Passed
+           @elseif ($daysUntilDeadline == 1)
+            Tomorrow
+          @elseif ($daysUntilDeadline <= 5)
+          {{$daysUntilDeadline}} days left
+          @else
+          Sedang dikerjakan
+          @endif
+          </span></td>
           <td class="text-center">
             <form action="{{route('task-delete', $task -> id)}}" method="POST" enctype="multipart/form-data">
               @csrf
@@ -43,7 +92,6 @@
                   {{-- <a class="dropdown-item" href=""><i class="bx bx-trash me-1"></i> Delete</a> --}}
                   <button class="dropdown-item text-danger deleteButton"><i class="bx bx-trash me-1"></i>Hapus</button>
                 </div>
-
               </div>
             </form>
           </td>
@@ -66,8 +114,8 @@
     
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger mr-2'
+        confirmButton: 'btn btn-success ms-2',
+        cancelButton: 'btn btn-danger'
       },
       buttonsStyling: false
     });

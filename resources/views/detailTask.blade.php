@@ -3,7 +3,7 @@
 @section('title', ' Vertical Layouts - Forms')
 
 @section('content')
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Detail Task / Project</h4>
+<h4 class="fw-bold py-3 mb-4" style="color: #696cff;">Detail - <span class="text-muted fw-bold"> Task / Project</span></h4>
 
 <!-- Basic Layout -->
 <div class="row">
