@@ -26,70 +26,22 @@
       </thead>
       <tbody class="table-border-bottom-0">
         @foreach ($tasks as $task)
-
-        {{-- @php
-        $deadline = new DateTime($task->deadline);
-        $currentDate = new DateTime();
-        $daysRemaining = $currentDate->diff($deadline)->days;
-        
-        if ($daysRemaining <= 5 && $daysRemaining >= 0) {
-          $statusClass = 'bg-label-warning';
-          $status = 'Task dekat dengan deadline';
-        } elseif ($daysRemaining < 0) {
-          $statusClass = 'bg-label-danger';
-          $status = 'Task telah tenggat';
-        } else {
-          $statusClass = 'bg-label-primary';
-          $status = 'Task sedang dikerjakan';
-        }
-        @endphp --}}
-
-        @php
-        // Calculate the difference in days between the current date and the task's deadline
-        $currentDate = now();
-        $deadline = \Carbon\Carbon::parse($task->deadline);
-        $daysUntilDeadline = $currentDate->diffInDays($deadline);
-        
-        // Define a variable to hold the CSS class based on the days until the deadline
-        $statusClass = '';
-        
-        // Determine the CSS class based on the days until the deadline
-        if ($daysUntilDeadline <= 0) {
-          // Deadline has passed, use 'bg-label-danger'
-          $statusClass = 'bg-label-danger';
-        } elseif ($daysUntilDeadline <= 5) {
-          // Deadline is within 5 days, use 'bg-label-warning'
-          $statusClass = 'bg-label-warning';
-        } else {
-          // Default to 'bg-label-primary' for other cases
-          $statusClass = 'bg-label-primary';
-        }
-        @endphp
-
-        <tr>
-          <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{$task -> title}}</strong></td>
-          <td class="text-center">{{$task -> created_at->format('Y-m-d')}}</td>
-          <td class="text-center">{{$task -> deadline}}</td>
-          <td class="text-center taskStatus"><span class="badge {{$statusClass}} me-1">
-            @if ($daysUntilDeadline <= 0)
-            Passed
-           @elseif ($daysUntilDeadline == 1)
-            Tomorrow
-          @elseif ($daysUntilDeadline <= 5)
-          {{$daysUntilDeadline}} days left
-          @else
-          Sedang dikerjakan
-          @endif
-          </span></td>
+        <tr data-task-id="{{$task->id}}">
+          <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{$task->title}}</strong></td>
+          <td class="text-center">{{$task->created_at->format('Y-m-d')}}</td>
+          <td class="text-center">{{$task->deadline}}</td>
+          <td class="text-center taskStatus" data-deadline="{{$task->deadline}}">
+            <span class="badge bg-primary">Active</span>
+          </td>
           <td class="text-center">
-            <form action="{{route('task-delete', $task -> id)}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('task-delete', $task->id)}}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('delete')
               <div>
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item text-info" href="{{route('task-detail', $task -> id)}}"><i class="bx bx-detail me-1 "></i> Detail</a>
-                  {{-- <a class="dropdown-item" href=""><i class="bx bx-trash me-1"></i> Delete</a> --}}
+                  <a class="dropdown-item text-info" href="{{route('task-detail', $task->id)}}"><i class="bx bx-detail me-1 "></i> Detail</a>
+                  <button class="dropdown-item text-success doneButton"><i class="bx bx-check me-1"></i>Done</button>
                   <button class="dropdown-item text-danger deleteButton"><i class="bx bx-trash me-1"></i>Hapus</button>
                 </div>
               </div>
@@ -98,6 +50,7 @@
         </tr>
         @endforeach
       </tbody>
+      
     </table>
   </div>
 </div>
@@ -142,7 +95,61 @@
     });
   });
 });
+</script>
 
-  </script>
+<script>
+  $(document).ready(function () {
+    // Function to update the background color based on the deadline
+    function updateStatusBackground() {
+      const today = new Date();
+      $('.taskStatus').each(function () {
+        const taskId = $(this).closest('tr').data('task-id');
+        const storedStatus = localStorage.getItem(`taskStatus_${taskId}`);
+        let statusText = '';
+
+        if (storedStatus === 'Done') {
+          statusText = 'Done';
+          $(this).find('.badge').removeClass('bg-primary bg-warning bg-danger').addClass('bg-success').text(statusText);
+        } else {
+          const deadline = new Date($(this).data('deadline'));
+          const daysUntilDeadline = Math.floor((deadline - today) / (1000 * 60 * 60 * 24));
+
+          if (daysUntilDeadline <= 0) {
+            statusText = 'Task telah tenggat';
+            $(this).find('.badge').removeClass('bg-primary bg-warning').addClass('bg-danger').text(statusText);
+          } else if (daysUntilDeadline <= 5) {
+            statusText = 'Task dekat dengan tenggat';
+            $(this).find('.badge').removeClass('bg-primary bg-danger').addClass('bg-warning').text(statusText);
+          } else {
+            statusText = 'Task sedang dikerjakan';
+            $(this).find('.badge').removeClass('bg-warning bg-danger').addClass('bg-primary').text(statusText);
+          }
+        }
+      });
+    }
+
+    // Initial update of status background
+    updateStatusBackground();
+
+    // Handle "Done" button click
+    $('.doneButton').click(function (e) {
+      e.preventDefault();
+
+      const form = $(this).closest('form');
+      const statusCell = form.closest('tr').find('.taskStatus');
+      statusCell.find('.badge').removeClass('bg-primary bg-warning bg-danger').addClass('bg-success').text('Done');
+
+      // Store the updated status in local storage
+      const taskId = form.closest('tr').data('task-id');
+      localStorage.setItem(`taskStatus_${taskId}`, 'Done');
+
+      // You can also submit the form or perform other actions here if needed.
+    });
+  });
+</script>
+
+
+
+
 
 @endsection
