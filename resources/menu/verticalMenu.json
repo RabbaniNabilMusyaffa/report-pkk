@@ -1,59 +1,25 @@
 {
   "menu": [
     {
-      "menuHeader": "Account Management"
+      "menuHeader": "Detail Laporan Penjualan"
+    },
+    {
+      "name": "Tambah Laporan",
+      "icon": "menu-icon tf-icons bx bxs-detail",
+      "slug": "Penambahan Laporan",
+      "url": "tambahLaporan"
+    },
+    {
+      "url": "/listProduk",
+      "icon": "menu-icon tf-icons bx bx-table",
+      "name": "List Produk",
+      "slug": "Daftar Produk"
     },
     {
       "url": "/",
-      "name": "Dashboard",
-      "icon": "menu-icon tf-icons bx bxs-home-circle",
-      "slug": "dashboard-analytics"
-    },
-    {
-      "name": "Account Settings",
-      "icon": "menu-icon tf-icons bx bx bxs-user-account",
-      "slug": "pages-account-settings",
-      "url": "/pages/account-settings-account"
-    },
-    {
-      "name": "Authentications",
-      "icon": "menu-icon tf-icons bx bxs-contact",
-      "slug": "auth",
-      "submenu": [
-        {
-          "url": "/auth/login-basic",
-          "name": "Login",
-          "slug": "auth-login-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "/auth/register-basic",
-          "name": "Register",
-          "slug": "auth-register-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "/auth/forgot-password-basic",
-          "name": "Forgot Password",
-          "slug": "auth-forgot-password-basic",
-          "target": "_blank"
-        }
-      ]
-    },
-    {
-      "menuHeader": "Task Management"
-    },
-    {
-      "name": "Tambah Task",
-      "icon": "menu-icon tf-icons bx bxs-detail",
-      "slug": "form-layouts",
-      "url": "tambahTask"
-    },
-    {
-      "url": "taskList",
       "icon": "menu-icon tf-icons bx bx-table",
-      "name": "Data Task",
-      "slug": "tables-basic"
+      "name": "List Laporan Penjualan",
+      "slug": "Daftar Laporan"
     }
   ]
 }

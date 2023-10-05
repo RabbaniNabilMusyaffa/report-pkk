@@ -6,7 +6,7 @@
       {{-- <span class="app-brand-logo demo">
         @include('_partials.macros',["width"=>25,"withbg"=>'#696cff'])
       </span> --}}
-      <h4 class="demo menu-text fw-bold ms-2" style="color: #696cff ;">Mr. Manage</h4>
+      <h4 class="demo menu-text fw-bold ms-2" style="color: #696cff ;">Laporan Penjualan</h4>
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-autod-block d-xl-none">
